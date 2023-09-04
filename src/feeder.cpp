@@ -27,8 +27,7 @@ void initFeeder(FeederCfg cfg)
   timerAlarmEnable(g_feeder.timer);
 
   // Timer duration init
-  g_feeder.duration =
-      timerBegin(TIMER_FEEDER_DURATION, TIMER_CLOCK_FREQUENCY, true);
+  g_feeder.duration = timerBegin(TIMER_FEEDER_DURATION, TIMER_CLOCK_FREQUENCY, true);
   timerAttachInterrupt(g_feeder.duration, &feedStopIR, true);
   timerAlarmWrite(g_feeder.duration, cfg.duration * MIC_TO_SEC, true);
   timerAlarmEnable(g_feeder.duration);
