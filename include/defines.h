@@ -4,12 +4,13 @@
 #define SERIAL_DEBUG_ENABLED 1
 
 // Tiempo macros
+#define TIMER_FEEDER 0
+#define TIMER_FEEDER_DURATION 1
+#define TIMER_WATER_CLEAN 2
 #define MIC_TO_SEC 1000000UL
 #define MIC_TO_HR (MIC_TO_SEC * 3600UL)
 #define MS_TO_SEC 1000
-#define TIMER_FEEDER 0
 #define CHECK_TIMEOUT (2 * MS_TO_SEC)
-#define TIMER_FEEDER_DURATION 1
 #define TIMER_CLOCK_FREQUENCY 80
 #define ULTRASOUND_DURATION 10
 
@@ -31,8 +32,13 @@
 #define PIN_LED 21
 #define PIN_SERVO 5
 #define PIN_RELAY 32
-#define PIN_LDR_AO 35
+#define PIN_LDR_AO 34
 #define PIN_ULTRASONIDO_TRIG 22
 #define PIN_ULTRASONIDO_ECHO 23
+
+// Defaults macro
+#define DEFAULT_FEEDER_TIME 5       // En horas
+#define DEFAULT_FEEDER_DURATION 2   // En segundos
+#define DEFAULT_CLEAN_WATER_TIME 2  // En horas
 
 #endif  // DEFINES_H

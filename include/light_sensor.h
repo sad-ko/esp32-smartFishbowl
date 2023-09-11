@@ -11,11 +11,13 @@ inline void initLightSensor()
   pinMode(PIN_LED, OUTPUT);
 }
 
-inline bool checkLightLevels()
+inline bool isNightTime()
 {
   uint16_t analogValue = analogRead(PIN_LDR_AO);
-  DebugPrintln(analogValue);
   return analogValue > NIGHT_THRESHOLD;
 }
+
+inline void lightsOn() { digitalWrite(PIN_LED, HIGH); }
+inline void lightsOff() { digitalWrite(PIN_LED, LOW); }
 
 #endif  // LIGHT_SENSOR_H

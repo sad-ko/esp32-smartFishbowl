@@ -21,14 +21,14 @@ void loop()
   if (current_time - last_time > CHECK_TIMEOUT)
   {
     last_time = current_time;
-    g_new_event = get_event();
+    get_event();
 
     if (g_new_event != EV_CAPTURED)
     {
+      DebugPrintState(g_states_str[g_current_state], g_events_str[g_new_event]);
       g_state_table[g_current_state][g_new_event]();
+      g_new_event = EV_CAPTURED;
       DebugPrintState(g_states_str[g_current_state], g_events_str[g_new_event]);
     }
-
-    g_new_event = EV_CAPTURED;
   }
 }
