@@ -14,7 +14,7 @@ inline void initLightSensor()
 inline bool isNightTime()
 {
   uint16_t analogValue = analogRead(PIN_LDR_AO);
-  return analogValue > NIGHT_THRESHOLD;
+  return analogValue < NIGHT_THRESHOLD;
 }
 
 inline void lightsOn() { digitalWrite(PIN_LED, HIGH); }

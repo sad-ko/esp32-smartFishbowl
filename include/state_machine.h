@@ -44,7 +44,7 @@ void action_night_time();
 void action_feeding_start();
 void action_feeding_stop();
 
-void get_event();
+void state_machine();
 
 // Definimos las variables globales, las inicializamos en el archivo fuente para evitar
 // multiples definiciones.

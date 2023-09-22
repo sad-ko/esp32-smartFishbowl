@@ -2,11 +2,11 @@
 #include <utils.h>
 #include <water_pump.h>
 
-hw_timer_t *g_clean_water_t;
+hw_timer_t *g_dirty_water_t;
 
 // No me parece que sea la mejor forma de pasar a estos eventos, podrian ser pisados
 // por otro evento en cuanto vuelva de la interrupcion.
-void IRAM_ATTR pumpStartIR() { g_new_event = EV_CLEAN_WATER; }
+void IRAM_ATTR pumpStartIR() { g_new_event = EV_DIRTY_WATER; }
 
 void initWaterPump()
 {
@@ -15,21 +15,17 @@ void initWaterPump()
   pinMode(PIN_RELAY, OUTPUT);
 
   // Timer duration init
-  g_clean_water_t = timerBegin(TIMER_WATER_CLEAN, TIMER_CLOCK_FREQUENCY, true);
-  timerAttachInterrupt(g_clean_water_t, &pumpStartIR, true);
+  g_dirty_water_t = timerBegin(TIMER_WATER_CLEAN, TIMER_CLOCK_FREQUENCY, true);
+  timerAttachInterrupt(g_dirty_water_t, &pumpStartIR, true);
 
 // Para probar dura segundos, pero debe pasarse a horas en el producto final.
-#if SERIAL_DEBUG_ENABLED
-  timerAlarmWrite(g_clean_water_t, DEFAULT_CLEAN_WATER_TIME * MIC_TO_SEC, true);
+#if DEBUG_MODE
+  timerAlarmWrite(g_dirty_water_t, DEFAULT_DIRTY_WATER_TIME * MIC_TO_SEC, true);
 #else
-  timerAlarmWrite(g_clean_water_t, DEFAULT_CLEAN_WATER_TIME * MIC_TO_HR, true);
+  timerAlarmWrite(g_dirty_water_t, DEFAULT_DIRTY_WATER_TIME * MIC_TO_HR, true);
 #endif
 
-  timerAlarmEnable(g_clean_water_t);
-
-  // Se lo detiene hasta que se termine de drenar el agua.
-  timerStop(g_clean_water_t);
-  timerRestart(g_clean_water_t);
+  timerAlarmEnable(g_dirty_water_t);
 }
 
 bool isWaterLow()
@@ -46,4 +42,17 @@ bool isWaterLow()
   DebugPrintln(" centimetes away.");
 
   return distance > MAX_WATER_DISTANCE;
+}
+
+void startWaterPump()
+{
+  timerStop(g_dirty_water_t);
+  timerRestart(g_dirty_water_t);
+  digitalWrite(PIN_RELAY, HIGH);
+}
+
+void stopWaterPump()
+{
+  digitalWrite(PIN_RELAY, LOW);
+  timerStart(g_dirty_water_t);
 }

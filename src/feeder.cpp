@@ -21,7 +21,7 @@ void initFeeder(FeederCfg cfg)
   timerAttachInterrupt(g_feeder.timer, &feedStartIR, true);
 
 // Para probar dura segundos, pero debe pasarse a horas en el producto final.
-#if SERIAL_DEBUG_ENABLED
+#if DEBUG_MODE
   timerAlarmWrite(g_feeder.timer, cfg.hours * MIC_TO_SEC, true);
 #else
   timerAlarmWrite(g_feeder.timer, cfg.hours * MIC_TO_HR, true);

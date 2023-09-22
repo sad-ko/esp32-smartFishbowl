@@ -6,7 +6,7 @@
 
 void initWaterPump();
 bool isWaterLow();
-inline void startWaterPump() { digitalWrite(PIN_RELAY, HIGH); }
-inline void stopWaterPump() { digitalWrite(PIN_RELAY, LOW); }
+void startWaterPump();
+void stopWaterPump();
 
 #endif  // WATER_PUMP_H

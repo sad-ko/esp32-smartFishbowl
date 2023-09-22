@@ -4,6 +4,20 @@
 #include <state_machine.h>
 #include <water_pump.h>
 
+#define MAX_EVENTS_TO_CHECK 2
+
+typedef bool (*checkEvent)();
+
+bool check_water();
+bool check_time();
+
+checkEvent events_to_check[MAX_EVENTS_TO_CHECK] = {check_water, check_time};
+
+unsigned long current_time = 0;
+unsigned long last_time = 0;
+short current_index = 0;
+short last_index = 0;
+
 enum states g_current_state = ST_INIT;
 enum events g_new_event = EV_CAPTURED;
 
@@ -42,20 +56,20 @@ void action_init()
   g_current_state = ST_IDLE;
 }
 
-void action_pump_start()
+void action_pump_start() {}
+
+void action_pump_stop() {}
+
+void action_draw_start()
 {
   startWaterPump();
-  g_current_state = ST_FILLING_TANK;
+  g_current_state = ST_DRAWING_WATER;
 }
-
-void action_pump_stop()
+void action_draw_stop()
 {
   stopWaterPump();
   g_current_state = ST_IDLE;
 }
-
-void action_draw_start() {}
-void action_draw_stop() {}
 
 void action_day_time()
 {
@@ -81,39 +95,55 @@ void action_feeding_stop()
   g_current_state = ST_IDLE;
 }
 
+bool check_water()
+{
+  if (isWaterLow())
+  {
+    g_new_event = EV_MINIMUN_WATER;
+    return true;
+  }
+
+  return false;
+}
+
+bool check_time()
+{
+  bool time = isNightTime();
+  if ((time && g_current_state == ST_IDLE) || (!time && g_current_state == ST_IDLE_NIGHT))
+  {
+    g_new_event = EV_TIME_CHANGED;
+    return true;
+  }
+
+  return false;
+}
+
 void get_event()
 {
-  switch (g_current_state)
+  current_time = millis();
+
+  if (current_time - last_time > CHECK_TIMEOUT)
   {
-    case ST_IDLE:
-      if (isNightTime())
-      {
-        g_new_event = EV_TIME_CHANGED;
-      }
-      break;
+    last_time = current_time;
+    current_index = last_index % MAX_EVENTS_TO_CHECK;
+    last_index++;
 
-    case ST_IDLE_NIGHT:
-      if (!isNightTime())
-      {
-        g_new_event = EV_TIME_CHANGED;
-      }
-      break;
+    if (events_to_check[current_index]())
+    {
+      return;
+    }
+  }
+}
 
-    case ST_DRAWING_WATER:
-      if (isWaterLow())
-      {
-        g_new_event = EV_MINIMUN_WATER;
-      }
-      break;
+void state_machine()
+{
+  get_event();
 
-    case ST_FILLING_TANK:
-      if (!isWaterLow())
-      {
-        g_new_event = EV_TANK_FULL;
-      }
-      break;
-
-    default:
-      break;
+  if (g_new_event != EV_CAPTURED)
+  {
+    DebugPrintState(g_states_str[g_current_state], g_events_str[g_new_event]);
+    g_state_table[g_current_state][g_new_event]();
+    g_new_event = EV_CAPTURED;
+    DebugPrintState(g_states_str[g_current_state], g_events_str[g_new_event]);
   }
 }
