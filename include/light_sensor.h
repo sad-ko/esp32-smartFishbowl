@@ -5,19 +5,22 @@
 #include <defines.h>
 #include <utils.h>
 
-inline void initLightSensor()
+inline void init_light_sensor()
 {
   pinMode(PIN_LDR_AO, INPUT);
   pinMode(PIN_LED, OUTPUT);
 }
 
-inline bool isNightTime()
+/// @brief Analiza el nivel de luz para determinar si es de noche o no.
+inline bool is_night_time()
 {
+  // El valor analogico es inverso al nivel de lux, por lo tanto a mayor valor analogico
+  // menor nivel de lux.
   uint16_t analogValue = analogRead(PIN_LDR_AO);
-  return analogValue < NIGHT_THRESHOLD;
+  return analogValue > DEFAULT_NIGHT_THRESHOLD;
 }
 
-inline void lightsOn() { digitalWrite(PIN_LED, HIGH); }
-inline void lightsOff() { digitalWrite(PIN_LED, LOW); }
+inline void lights_on() { digitalWrite(PIN_LED, HIGH); }
+inline void lights_off() { digitalWrite(PIN_LED, LOW); }
 
 #endif  // LIGHT_SENSOR_H

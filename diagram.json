@@ -12,7 +12,7 @@
     { "type": "wokwi-hc-sr04", "id": "ultrasonic1", "top": -183.97, "left": 228.84, "attrs": { "distance": "43" } },
     { "type": "wokwi-relay-module", "id": "relay1", "top": 265.67, "left": 252.55, "attrs": {} },
     { "type": "wokwi-led", "id": "led1", "top": 255.6, "left": 397.4, "attrs": { "color": "yellow" } },
-    { "type": "wokwi-photoresistor-sensor", "id": "ldr1", "top": 214.4, "left": -488.8, "attrs": { "lux": "1000" } },
+    { "type": "wokwi-photoresistor-sensor", "id": "ldr1", "top": 214.4, "left": -488.8, "attrs": { "lux": "1000", "rl10": "20", "gamma": "0.7"  } },
     { "type": "wokwi-vcc", "id": "vcc2", "top": -56.84, "left": -537.6, "attrs": {} },
     { "type": "wokwi-gnd", "id": "gnd2", "top": 9.6, "left": -538.2, "attrs": {} },
     { "type": "wokwi-resistor", "id": "r1", "top": -42.67, "left": 215.63, "rotate": 180, "attrs": { "value": "1000" } },
