@@ -2,84 +2,55 @@
 #define STATE_MACHINE_H
 
 #include <Arduino.h>
-#include <defines.h>
-#include <feeder.h>
 #include <utils.h>
-#include <water_pump.h>
 
-#define MAX_STATES 3
-#define MAX_EVENTS 3
+#define MAX_STATES 6
+#define MAX_EVENTS 7
 
+/// @brief Estados de la pecera.
 enum states
 {
   ST_INIT,
   ST_IDLE,
-  ST_FILLING_TANK,
-} g_current_state;
-
-String g_states_str[] = {
-    "ST_INIT",
-    "ST_IDLE",
-    "ST_FILLING_TANK",
+  ST_IDLE_NIGHT,
+  ST_LOW_ON_WATER,
+  ST_DRAWING_WATER,
+  ST_FEEDING_FISHES,
 };
 
+/// @brief Eventos de la pecera.
 enum events
 {
   EV_CAPTURED,
-  EV_LOW_WATER,
-  EV_HIGH_WATER,
-} g_new_event;
-
-String g_events_str[] = {
-    "EV_CAPTURED",
-    "EV_LOW_WATER",
-    "EV_HIGH_WATER",
+  EV_FISHES_FED,
+  EV_DIRTY_WATER,
+  EV_TANK_FILLED,
+  EV_TIME_CHANGED,
+  EV_MINIMUN_WATER,
+  EV_HUNGRY_FISHES,
 };
 
 typedef void (*transition)();
 
-void action_init()
-{
-  initFeeder(FeederCfg{.pin = PIN_SERVO, .hours = 5, .duration = 2});
-  initWaterPump();
-  DebugPrintState(g_states_str[g_current_state], g_events_str[g_new_event]);
-  g_current_state = ST_IDLE;
-}
+inline void action_none() {}
+inline void action_error() { DebugPrintln("[Error] - No deberias estar aqui..."); }
 
-void action_error() { DebugPrintln("[Error] - No deberias estar aqui..."); }
+void action_init();
+void action_draw_start();
+void action_draw_stop();
+void action_day_time();
+void action_night_time();
+void action_feeding_start();
+void action_feeding_stop();
+void action_tank_start();
+void action_tank_stop();
 
-void action_none() {}
+void state_machine();
 
-void action_pump()
-{
-  DebugPrintState(g_states_str[g_current_state], g_events_str[g_new_event]);
-  g_current_state = ST_FILLING_TANK;
-  startWaterPump();
-}
-
-void action_pump_stop()
-{
-  DebugPrintState(g_states_str[g_current_state], g_events_str[g_new_event]);
-  g_current_state = ST_IDLE;
-  stopWaterPump();
-}
-
-transition g_state_table[MAX_STATES][MAX_EVENTS] = {
-    {action_init, action_error, action_error},     // ST_INIT
-    {action_none, action_pump, action_none},       // ST_IDLE
-    {action_none, action_none, action_pump_stop},  // ST_FILLING_TANK
-
-    // EV_CAPTURED, EV_LOW_WATER, EV_HIGH_WATER
-};
-
-enum events get_event()
-{
-  if (checkWaterLevels())
-  {
-    return (g_current_state != ST_FILLING_TANK) ? EV_LOW_WATER : EV_CAPTURED;
-  }
-
-  return (g_current_state != ST_FILLING_TANK) ? EV_CAPTURED : EV_HIGH_WATER;
-}
+extern enum states g_current_state;
+extern enum events g_new_event;
+extern const String g_states_str[];
+extern const String g_events_str[];
+extern const transition g_state_table[MAX_STATES][MAX_EVENTS];
 
 #endif  // STATE_MACHINE_H

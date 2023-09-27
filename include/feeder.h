@@ -7,9 +7,9 @@
 #define CLOSE_DISPENSER 0
 
 /// @brief Alimentador para peces, es un servo que gira la lata de comida
-/// cada vez que el timer genera una interrupcion por hardware
-/// (Se genera una segunda interrupcion para volver a su lugar la lata despues
-/// X segundos).
+/// cada vez que el timer genera una interrupcion por hardware cada X horas
+/// (Se genera una segunda interrupcion para volver la lata a su lugar despues
+/// Y segundos).
 typedef struct
 {
   Servo servo;
@@ -33,12 +33,9 @@ typedef struct
 /// @brief Inicializa el servo en 0 grados y los timers para comenzar/detenerse
 /// de darle de comer a los peces.
 /// @param cfg: Las configuraciones del alimentador para peces.
-void initFeeder(FeederCfg cfg);
+void init_feeder(FeederCfg cfg);
 
-/// @brief Comienza a darle de comer a los peces.
-void feedStart();
-
-/// @brief Detiene de darle de comer a los peces.
-void feedStop();
+void feed_start();
+void feed_stop();
 
 #endif  // FEEDER_H
