@@ -1,0 +1,2 @@
+- Sincronizar el timer del esp32 con la hora del dia enviada por un dispositivo Android
+  (Marcar el valor del timer como la diferencia entre la hora actual y la hora en la que se debe alarmar).

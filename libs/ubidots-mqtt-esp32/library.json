@@ -1,0 +1,6 @@
+{
+    "name": "ubidots-mqtt-esp32",
+    "version": "1.0.0",
+    "description": "Ubidots lib to connect the esp-32 with mqtt",
+    "keywords": "mqtt"
+}

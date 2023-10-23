@@ -5,7 +5,7 @@
 #include <utils.h>
 
 #define MAX_STATES 6
-#define MAX_EVENTS 7
+#define MAX_EVENTS 9
 
 /// @brief Estados de la pecera.
 enum states
@@ -15,7 +15,7 @@ enum states
   ST_IDLE_NIGHT,
   ST_LOW_ON_WATER,
   ST_DRAWING_WATER,
-  ST_FEEDING_FISHES,
+  ST_FEEDING_FISHES
 };
 
 /// @brief Eventos de la pecera.
@@ -28,6 +28,8 @@ enum events
   EV_TIME_CHANGED,
   EV_MINIMUN_WATER,
   EV_HUNGRY_FISHES,
+  EV_MQTT_DRAW_WATER,
+  EV_MQTT_FEED_FISHES,
 };
 
 typedef void (*transition)();
