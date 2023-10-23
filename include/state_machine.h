@@ -4,8 +4,8 @@
 #include <Arduino.h>
 #include <utils.h>
 
-#define MAX_STATES 6
-#define MAX_EVENTS 9
+#define MAX_STATES 7
+#define MAX_EVENTS 10
 
 /// @brief Estados de la pecera.
 enum states
@@ -13,6 +13,7 @@ enum states
   ST_INIT,
   ST_IDLE,
   ST_IDLE_NIGHT,
+  ST_IDLE_MANUAL,
   ST_LOW_ON_WATER,
   ST_DRAWING_WATER,
   ST_FEEDING_FISHES
@@ -30,6 +31,7 @@ enum events
   EV_HUNGRY_FISHES,
   EV_MQTT_DRAW_WATER,
   EV_MQTT_FEED_FISHES,
+  EV_MQTT_SWITCH_LIGHTS
 };
 
 typedef void (*transition)();
@@ -46,6 +48,9 @@ void action_feeding_start();
 void action_feeding_stop();
 void action_tank_start();
 void action_tank_stop();
+void action_lights_on();
+void action_lights_off();
+void action_lights_switch();
 
 void state_machine();
 
