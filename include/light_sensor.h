@@ -17,7 +17,7 @@ inline bool is_night_time()
   // El valor analogico es inverso al nivel de lux, por lo tanto a mayor valor analogico
   // menor nivel de lux.
   uint16_t analogValue = analogRead(PIN_LDR_AO);
-  return analogValue > DEFAULT_NIGHT_THRESHOLD;
+  return analogValue < DEFAULT_NIGHT_THRESHOLD;
 }
 
 inline void lights_on() { digitalWrite(PIN_LED, HIGH); }

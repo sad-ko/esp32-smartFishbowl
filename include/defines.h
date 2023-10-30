@@ -21,6 +21,11 @@
 // Distancias macros
 #define PULSE_TO_CM(pulse) (float)(pulse / 58)
 
+// Queue macros
+#define QUEUE_MAX 5
+#define QUEUE_STACK_SIZE 10000
+#define QUEUE_NO_WAIT 0
+
 // Pines macros
 #define PIN_LED 21
 #define PIN_SERVO 5
@@ -32,9 +37,10 @@
 // Defaults macro
 #define DEFAULT_FEEDER_TIME 20         // En horas
 #define DEFAULT_FEEDER_DURATION 5      // En segundos
-#define DEFAULT_DIRTY_WATER_TIME 7     // En horas
+#define DEFAULT_DIRTY_WATER_TIME 70    // En horas
 #define DEFAULT_MIN_WATER_DISTANCE 50  // En cm
 #define DEFAULT_MAX_WATER_DISTANCE 20  // En cm
-#define DEFAULT_NIGHT_THRESHOLD 800  // Aprox. 200 lux (https://en.wikipedia.org/wiki/Lux#Illuminance)
+#define DEFAULT_NIGHT_THRESHOLD \
+  800  // Aprox. 200 lux (https://en.wikipedia.org/wiki/Lux#Illuminance)
 
 #endif  // DEFINES_H
