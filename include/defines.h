@@ -8,6 +8,7 @@
 // Tiempo macros
 #define MS_TO_SEC 1000
 #define MIC_TO_SEC 1000000UL
+#define MIC_TO_MIN (MIC_TO_SEC * 60UL)
 #define MIC_TO_HR (MIC_TO_SEC * 3600UL)
 #define CHECK_TIMEOUT (1 * MS_TO_SEC)
 #define ULTRASOUND_DURATION 10  // En ms

@@ -17,7 +17,7 @@ void init_feeder(FeederCfg cfg)
   g_feeder.timer = timerBegin(TIMER_FEEDER, TIMER_CLOCK_FREQUENCY, true);
   timerAttachInterrupt(g_feeder.timer, &feedStartIR, true);
 #if DEBUG_MODE
-  timerAlarmWrite(g_feeder.timer, cfg.hours * MIC_TO_SEC, true);
+  timerAlarmWrite(g_feeder.timer, cfg.hours * MIC_TO_MIN, true);
 #else
   timerAlarmWrite(g_feeder.timer, cfg.hours * MIC_TO_HR, true);
 #endif

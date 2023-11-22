@@ -95,6 +95,12 @@ void get_event()
 
   if (current_time - last_time > CHECK_TIMEOUT)
   {
+    if (g_current_state == ST_DRAWING_WATER)
+    {
+      check_water();
+      return;
+    }
+
     last_time = current_time;
     current_index = last_index % MAX_EVENTS_TO_CHECK;
     last_index++;

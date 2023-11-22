@@ -7,8 +7,8 @@
 
 /* -- Credenciales -- */
 const char *UBIDOTS_TOKEN = "BBFF-VfVWtbeDj6PUpfZmWTcyqCfiqUOTRj";
-const char *WIFI_SSID = "SO Avanzados";
-const char *WIFI_PASS = "SOA.2019";
+const char *WIFI_SSID = "Wokwi-GUEST";
+const char *WIFI_PASS = "";
 const char *SUBS_TOPIC = "/v2.0/devices/android-smart-fishbowl/send-event";
 const char *PUB_DEV = "esp32-smart-fishbowl";
 const char *PUB_VAR = "send-state";

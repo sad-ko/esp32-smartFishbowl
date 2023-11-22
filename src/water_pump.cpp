@@ -18,7 +18,7 @@ void init_water_pump(uint8_t drain_water_time, uint8_t min_water_level,
       timerBegin(TIMER_DRAIN_WATER, TIMER_CLOCK_FREQUENCY, true);
   timerAttachInterrupt(g_water_pump.drain_water_timer, &pumpStartIR, true);
 #if DEBUG_MODE
-  timerAlarmWrite(g_water_pump.drain_water_timer, drain_water_time * MIC_TO_SEC, true);
+  timerAlarmWrite(g_water_pump.drain_water_timer, drain_water_time * MIC_TO_MIN, true);
 #else
   timerAlarmWrite(g_water_pump.drain_water_timer, drain_water_time * MIC_TO_HR, true);
 #endif
